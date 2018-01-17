@@ -28,9 +28,12 @@ final RETROFIT2_VERSION = '2.3.0'
 
 final BUTTERKNIFE_VERSION = '8.8.1'
 
+final PICASSO_VERSION = '2.5.2'
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
 
     implementation "com.android.support.constraint:constraint-layout:${CONSTRAINT_LAYOUT_VERSION}"
 
@@ -42,6 +45,8 @@ dependencies {
 
     implementation "com.jakewharton:butterknife:${BUTTERKNIFE_VERSION}"
     annotationProcessor "com.jakewharton:butterknife-compiler:${BUTTERKNIFE_VERSION}"
+
+    implementation "com.squareup.picasso:picasso:${PICASSO_VERSION}"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
