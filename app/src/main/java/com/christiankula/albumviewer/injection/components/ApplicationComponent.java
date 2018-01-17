@@ -1,4 +1,4 @@
-package com.christiankula.albumviewer.injection;
+package com.christiankula.albumviewer.injection.components;
 
 import javax.inject.Singleton;
 
