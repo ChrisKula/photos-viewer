@@ -4,6 +4,8 @@ import android.app.Application;
 
 import com.christiankula.albumviewer.injection.components.AlbumViewerComponent;
 import com.christiankula.albumviewer.injection.components.DaggerApplicationComponent;
+import com.christiankula.albumviewer.injection.modules.ApplicationModule;
+import com.christiankula.albumviewer.injection.modules.NetworkModule;
 
 
 public class AlbumViewerApplication extends Application {
@@ -16,6 +18,8 @@ public class AlbumViewerApplication extends Application {
     protected AlbumViewerComponent createComponent() {
         if (component == null) {
             return DaggerApplicationComponent.builder()
+                    .applicationModule(new ApplicationModule(this))
+                    .networkModule(new NetworkModule())
                     .build();
 
         } else {
