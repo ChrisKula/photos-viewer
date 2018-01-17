@@ -33,6 +33,8 @@ final PICASSO_VERSION = '2.5.2'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation "com.android.support:appcompat-v7:${SUPPORT_LIB_VERSION}"
+    implementation "com.android.support:design:${SUPPORT_LIB_VERSION}"
+
     implementation "com.android.support:recyclerview-v7:${SUPPORT_LIB_VERSION}"
 
     implementation "com.android.support.constraint:constraint-layout:${CONSTRAINT_LAYOUT_VERSION}"
