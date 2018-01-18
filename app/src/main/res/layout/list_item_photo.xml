@@ -4,32 +4,32 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="2dp">
-
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true">
 
     <ImageView
         android:id="@+id/iv_photo_image"
-        android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_margin="4dp"
         android:contentDescription="Photo content"
-        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:src="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/tv_photo_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#88000000"
+        android:layout_width="0dp"
+        android:layout_height="70dp"
+        android:layout_marginLeft="8dp"
+        android:maxLines="3"
         android:ellipsize="end"
-        android:maxLines="1"
-        android:padding="8dp"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        app:layout_constraintBottom_toBottomOf="@id/iv_photo_image"
-        app:layout_constraintLeft_toLeftOf="@id/iv_photo_image"
-        app:layout_constraintRight_toRightOf="@id/iv_photo_image"
-        tools:text="accusamus beatae ad facilis cum similique qui sunt" />
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/iv_photo_image"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="@tools:sample/lorem/random" />
 </android.support.constraint.ConstraintLayout>

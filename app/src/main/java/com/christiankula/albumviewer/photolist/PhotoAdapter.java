@@ -11,6 +11,7 @@ import com.christiankula.albumviewer.R;
 import com.christiankula.albumviewer.models.Photo;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -18,15 +19,35 @@ import butterknife.ButterKnife;
 
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
+    public final static int STYLE_GRID = 1;
+
+    public final static int STYLE_LIST = 2;
+
     private List<Photo> data;
 
-    PhotoAdapter(List<Photo> data) {
-        this.data = data;
+    private final int style;
+
+    public PhotoAdapter(int style) {
+        data = new ArrayList<>();
+        this.style = style;
     }
 
     @Override
     public PhotoViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_photo, parent, false);
+        int layoutResId;
+
+        switch (this.style) {
+            case STYLE_LIST:
+                layoutResId = R.layout.list_item_photo;
+                break;
+
+            case STYLE_GRID:
+            default:
+                layoutResId = R.layout.grid_item_photo;
+                break;
+        }
+
+        View itemView = LayoutInflater.from(parent.getContext()).inflate(layoutResId, parent, false);
 
         return new PhotoViewHolder(itemView);
     }

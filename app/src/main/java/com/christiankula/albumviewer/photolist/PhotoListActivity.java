@@ -17,7 +17,6 @@ import com.christiankula.albumviewer.R;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -108,7 +107,7 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
     }
 
     private void initPhotoListRecyclerView() {
-        photoAdapter = new PhotoAdapter(new ArrayList<Photo>());
+        photoAdapter = new PhotoAdapter(PhotoAdapter.STYLE_GRID);
 
         int spanCount = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? SPAN_COUNT_PORTRAIT : SPAN_COUNT_LANDSCAPE;
 
