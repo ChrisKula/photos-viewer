@@ -14,11 +14,17 @@ import dagger.Provides;
 import retrofit2.Retrofit;
 import retrofit2.converter.jackson.JacksonConverterFactory;
 
+/**
+ * Dagger module in charge of providing network related dependencies
+ */
 @Module
 public class NetworkModule {
 
     private final static String JSON_PLACEHOLDER_BASE_URL = "jsonPlaceholderBaseUrl";
 
+    /**
+     * Provides the base URL of jsonplaceholder.com
+     */
     @Singleton
     @Provides
     @Named(JSON_PLACEHOLDER_BASE_URL)
@@ -26,6 +32,11 @@ public class NetworkModule {
         return context.getString(R.string.json_placeholder_base_url);
     }
 
+    /**
+     * Provides an implementation of the API endpoints defined by {@link JsonPlaceholderService}
+     *
+     * @param baseUrl jsonplaceholder.com base URL
+     */
     @Singleton
     @Provides
     JsonPlaceholderService provideJsonPlaceholderService(@Named(JSON_PLACEHOLDER_BASE_URL) String baseUrl) {

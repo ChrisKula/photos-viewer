@@ -2,4 +2,8 @@
     <string name="app_name">Album Viewer</string>
 
     <string name="json_placeholder_base_url">https://jsonplaceholder.typicode.com/</string>
+
+    <string name="menu_item_refresh">Refresh</string>
+    <string name="menu_item_list_style_grid">Grid</string>
+    <string name="menu_item_list_style_list">List</string>
 </resources>
