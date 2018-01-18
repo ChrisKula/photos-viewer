@@ -7,6 +7,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.christiankula.albumviewer.AlbumViewerApplication;
@@ -57,6 +60,24 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
     @Override
     public void onRefresh() {
         presenter.onRefresh();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_photo_list, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_item_refresh_list:
+                presenter.onRefresh();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     @Inject
