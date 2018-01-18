@@ -3,6 +3,7 @@ package com.christiankula.albumviewer.photolist;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import com.christiankula.albumviewer.R;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 
@@ -44,15 +45,9 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
     }
 
     @Override
-    public void onCreate() {
-        refreshPhotos();
-    }
-
-    @Override
     public void onRefresh() {
         refreshPhotos();
     }
-
 
     private void refreshPhotos() {
         this.getPhotosCall = model.requestPhotos();
@@ -60,6 +55,30 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
         this.getPhotosCall.enqueue(this);
 
         this.view.setRefreshing(true);
+    }
+
+    @Override
+    public int getPreferredListStyle() {
+        return model.getPreferredListStyle();
+    }
+
+    @Override
+    public void invalidatePhotosList() {
+        refreshPhotos();
+    }
+
+    @Override
+    public void onMenuItemListStyleClick(int itemId) {
+        switch (itemId) {
+            case R.id.menu_item_list_style_list:
+                model.savePreferredListStyle(PhotoAdapter.STYLE_LIST);
+                break;
+
+            case R.id.menu_item_list_style_grid:
+            default:
+                model.savePreferredListStyle(PhotoAdapter.STYLE_GRID);
+                break;
+        }
     }
 
     @Override

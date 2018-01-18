@@ -13,6 +13,8 @@ import retrofit2.Call;
 
 public class PhotoListModel implements PhotoListMvp.Model {
 
+    private int preferredListStyle;
+
     private JsonPlaceholderService jsonPlaceholderService;
 
     @Inject
@@ -23,5 +25,15 @@ public class PhotoListModel implements PhotoListMvp.Model {
     @Override
     public Call<List<Photo>> requestPhotos() {
         return jsonPlaceholderService.getPhotos();
+    }
+
+    @Override
+    public void savePreferredListStyle(int style) {
+        preferredListStyle = style;
+    }
+
+    @Override
+    public int getPreferredListStyle(){
+        return preferredListStyle;
     }
 }

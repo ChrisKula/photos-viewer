@@ -22,6 +22,18 @@ public interface PhotoListMvp {
          * @return the call in charge of retrieving the photos from the corresponding API endpoint
          */
         Call<List<Photo>> requestPhotos();
+
+        /**
+         * Saves the preferred list style
+         *
+         * @param style to save
+         */
+        void savePreferredListStyle(int style);
+
+        /**
+         * Returns the preferred list style
+         */
+        int getPreferredListStyle();
     }
 
     interface View extends BaseView<Presenter> {
@@ -50,13 +62,25 @@ public interface PhotoListMvp {
     interface Presenter extends BasePresenter<View> {
 
         /**
-         * Called when {@link PhotoListMvp.View} is resumed
-         */
-        void onCreate();
-
-        /**
          * Called when {@link PhotoListMvp.View} is refreshed
          */
         void onRefresh();
+
+        /**
+         * Returns the preferred list style given by the model
+         */
+        int getPreferredListStyle();
+
+        /**
+         * Invalidates photos list and requests a refresh
+         */
+        void invalidatePhotosList();
+
+        /**
+         * Called when a menu item corresponding to list style is clicked
+         *
+         * @param itemId the id of the clicked item
+         */
+        void onMenuItemListStyleClick(int itemId);
     }
 }
