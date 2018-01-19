@@ -11,6 +11,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -25,6 +29,8 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
 
     private Call<List<Photo>> getPhotosCall;
 
+    private Disposable loadPhotosDisposable;
+
     @Inject
     public PhotoListPresenter(PhotoListMvp.Model model) {
         this.model = model;
@@ -33,10 +39,25 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
     @Override
     public void attachView(PhotoListMvp.View view) {
         this.view = view;
+
+        loadPhotosDisposable = model.loadPhotos()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<List<Photo>>() {
+                    @Override
+                    public void accept(List<Photo> photos) throws Exception {
+                        model.setLoadedPhotos(photos);
+                        displayPhotos(photos);
+                    }
+                });
     }
 
     @Override
     public void detachView() {
+        if (loadPhotosDisposable != null && !loadPhotosDisposable.isDisposed()) {
+            loadPhotosDisposable.dispose();
+        }
+
         if (!getPhotosCall.isExecuted()) {
             this.getPhotosCall.cancel();
         }
@@ -45,16 +66,14 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
     }
 
     @Override
-    public void onRefresh() {
+    public void onCreate() {
+        // TODO Avoid requesting on every 'onCreate'
         refreshPhotos();
     }
 
-    private void refreshPhotos() {
-        this.getPhotosCall = model.requestPhotos();
-
-        this.getPhotosCall.enqueue(this);
-
-        this.view.setRefreshing(true);
+    @Override
+    public void onRefresh() {
+        refreshPhotos();
     }
 
     @Override
@@ -63,8 +82,8 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
     }
 
     @Override
-    public void invalidatePhotosList() {
-        refreshPhotos();
+    public void onPhotoListReady() {
+        displayPhotos(model.getLoadedPhotos());
     }
 
     @Override
@@ -86,15 +105,9 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
         List<Photo> photos = response.body();
 
         if (response.isSuccessful() && photos != null) {
-            if (photos.isEmpty()) {
-                Log.w(TAG, "Response body is empty");
-
-                view.showNoPhotosToDisplayMessage();
-            } else {
-                view.displayPhotos(photos);
-            }
+            model.savePhotos(photos);
         } else {
-            view.showUnableToRetrievePhotosMessage();
+            view.showUnableToRetrievePhotosOperatingInOfflineModeMessage();
         }
 
         this.view.setRefreshing(false);
@@ -104,8 +117,25 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
     public void onFailure(@NonNull Call<List<Photo>> call, @NonNull Throwable t) {
         Log.e(TAG, "GET request for photos failed", t);
 
-        view.showUnableToRetrievePhotosMessage();
+        view.showUnableToRetrievePhotosOperatingInOfflineModeMessage();
 
         this.view.setRefreshing(false);
+    }
+
+    private void refreshPhotos() {
+        this.getPhotosCall = model.requestPhotos();
+
+        this.getPhotosCall.enqueue(this);
+
+        this.view.setRefreshing(true);
+    }
+
+    private void displayPhotos(List<Photo> photos) {
+        if (photos != null && !photos.isEmpty()) {
+            this.view.displayPhotos(photos);
+        } else {
+            //TODO Show no photos available message
+            Log.w(TAG, "No photos to display");
+        }
     }
 }
