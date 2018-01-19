@@ -7,6 +7,7 @@ import com.christiankula.albumviewer.mvp.BaseView;
 
 import java.util.List;
 
+import io.reactivex.Flowable;
 import retrofit2.Call;
 
 /**
@@ -34,6 +35,30 @@ public interface PhotoListMvp {
          * Returns the preferred list style
          */
         int getPreferredListStyle();
+
+        /**
+         * Saves the list of photos in the database
+         *
+         * @param photos photos to save
+         */
+        void savePhotos(List<Photo> photos);
+
+        /**
+         * Returns a Flowable that emits the content of the Photo table whenever it's updated
+         */
+        Flowable<List<Photo>> loadPhotos();
+
+        /**
+         * Sets the model loaded photos
+         *
+         * @param photos photos that are loaded
+         */
+        void setLoadedPhotos(List<Photo> photos);
+
+        /**
+         * Returns the model's loaded photos
+         */
+        List<Photo> getLoadedPhotos();
     }
 
     interface View extends BaseView<Presenter> {
@@ -51,7 +76,7 @@ public interface PhotoListMvp {
         /**
          * Displays a message indicating that photos couldn't be retrieved
          */
-        void showUnableToRetrievePhotosMessage();
+        void showUnableToRetrievePhotosOperatingInOfflineModeMessage();
 
         /**
          * Displays a message indicating there's no photo to display
@@ -60,6 +85,11 @@ public interface PhotoListMvp {
     }
 
     interface Presenter extends BasePresenter<View> {
+
+        /**
+         * Called when {@link PhotoListMvp.View} is created
+         */
+        void onCreate();
 
         /**
          * Called when {@link PhotoListMvp.View} is refreshed
@@ -72,9 +102,9 @@ public interface PhotoListMvp {
         int getPreferredListStyle();
 
         /**
-         * Invalidates photos list and requests a refresh
+         * Called once the photo list is ready
          */
-        void invalidatePhotosList();
+        void onPhotoListReady();
 
         /**
          * Called when a menu item corresponding to list style is clicked

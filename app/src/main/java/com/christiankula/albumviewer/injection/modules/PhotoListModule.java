@@ -1,6 +1,8 @@
 package com.christiankula.albumviewer.injection.modules;
 
 import com.christiankula.albumviewer.network.JsonPlaceholderService;
+import com.christiankula.albumviewer.persistence.PhotoDao;
+import com.christiankula.albumviewer.persistence.SharedPreferencesHelper;
 import com.christiankula.albumviewer.photolist.PhotoListModel;
 import com.christiankula.albumviewer.photolist.PhotoListPresenter;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
@@ -20,8 +22,8 @@ public class PhotoListModule {
      * @param service REST client
      */
     @Provides
-    PhotoListMvp.Model provideModel(JsonPlaceholderService service) {
-        return new PhotoListModel(service);
+    PhotoListMvp.Model provideModel(JsonPlaceholderService service, SharedPreferencesHelper sharedPreferencesHelper, PhotoDao photoDao) {
+        return new PhotoListModel(service, sharedPreferencesHelper, photoDao);
     }
 
 

@@ -60,6 +60,8 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
         setupPhotoListRecyclerView();
         initSwipeRefreshLayout();
+
+        presenter.onCreate();
     }
 
 
@@ -124,8 +126,8 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
     }
 
     @Override
-    public void showUnableToRetrievePhotosMessage() {
-        Snackbar.make(srlRoot, "Unable to retrieve photos at the moment, try again later.", Snackbar.LENGTH_SHORT).show();
+    public void showUnableToRetrievePhotosOperatingInOfflineModeMessage() {
+        Snackbar.make(srlRoot, "Unable to retrieve photos at the moment. Operating in offline mode", Snackbar.LENGTH_LONG).show();
     }
 
     @Override
@@ -157,7 +159,7 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
         rvPhotoList.setLayoutManager(layoutManager);
         rvPhotoList.setAdapter(photoAdapter);
 
-        presenter.invalidatePhotosList();
+        presenter.onPhotoListReady();
     }
 
     private void initSwipeRefreshLayout() {

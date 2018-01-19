@@ -6,6 +6,8 @@ import com.christiankula.albumviewer.injection.components.AlbumViewerComponent;
 import com.christiankula.albumviewer.injection.components.DaggerApplicationComponent;
 import com.christiankula.albumviewer.injection.modules.ApplicationModule;
 import com.christiankula.albumviewer.injection.modules.NetworkModule;
+import com.christiankula.albumviewer.injection.modules.PersistenceModule;
+import com.christiankula.albumviewer.injection.modules.PhotoListModule;
 
 
 public class AlbumViewerApplication extends Application {
@@ -20,6 +22,8 @@ public class AlbumViewerApplication extends Application {
             return DaggerApplicationComponent.builder()
                     .applicationModule(new ApplicationModule(this))
                     .networkModule(new NetworkModule())
+                    .photoListModule(new PhotoListModule())
+                    .persistenceModule(new PersistenceModule())
                     .build();
 
         } else {
