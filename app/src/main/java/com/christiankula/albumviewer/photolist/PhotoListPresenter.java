@@ -140,8 +140,7 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
         if (photos != null && !photos.isEmpty()) {
             this.view.displayPhotos(photos);
         } else {
-            //TODO Show no photos available message
-            Log.w(TAG, "No photos to display");
+            view.showNoPhotosToDisplayMessage();
         }
     }
 }

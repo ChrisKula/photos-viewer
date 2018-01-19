@@ -11,12 +11,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.christiankula.albumviewer.AlbumViewerApplication;
 import com.christiankula.albumviewer.R;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
+import com.christiankula.albumviewer.utils.ViewUtils;
 
 import java.util.List;
 
@@ -43,6 +44,9 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
     @BindView(R.id.srl_root)
     SwipeRefreshLayout srlRoot;
+
+    @BindView(R.id.tv_no_photos)
+    TextView tvNoPhotos;
 
     private PhotoListMvp.Presenter presenter;
 
@@ -118,6 +122,10 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
     @Override
     public void displayPhotos(List<Photo> photos) {
         photoAdapter.setData(photos);
+
+        ViewUtils.setViewVisibility(rvPhotoList, true);
+
+        ViewUtils.setViewVisibility(tvNoPhotos, false);
     }
 
     @Override
@@ -127,13 +135,14 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
     @Override
     public void showUnableToRetrievePhotosOperatingInOfflineModeMessage() {
-        Snackbar.make(srlRoot, "Unable to retrieve photos at the moment. Operating in offline mode", Snackbar.LENGTH_LONG).show();
+        Snackbar.make(srlRoot, R.string.snackbar_error_offline_mode, Snackbar.LENGTH_LONG).show();
     }
 
     @Override
     public void showNoPhotosToDisplayMessage() {
-        //TODO Change toast to static message
-        Toast.makeText(this, "There is no photos to display", Toast.LENGTH_SHORT).show();
+        ViewUtils.setViewVisibility(rvPhotoList, false);
+
+        ViewUtils.setViewVisibility(tvNoPhotos, true);
     }
 
     private void setupPhotoListRecyclerView() {
