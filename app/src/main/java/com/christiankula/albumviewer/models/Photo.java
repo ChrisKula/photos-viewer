@@ -1,24 +1,35 @@
 
 package com.christiankula.albumviewer.models;
 
+import android.arch.persistence.room.ColumnInfo;
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity(tableName = "photos")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Photo {
 
+    @ColumnInfo(name = "album_id")
     @JsonProperty("albumId")
     private int albumId;
 
+    @PrimaryKey
+    @ColumnInfo(name = "id")
     @JsonProperty("id")
     private int id;
 
+    @ColumnInfo(name = "title")
     @JsonProperty("title")
     private String title;
 
+    @ColumnInfo(name = "url")
     @JsonProperty("url")
     private String url;
 
+    @ColumnInfo(name = "thumbnail_url")
     @JsonProperty("thumbnailUrl")
     private String thumbnailUrl;
 
