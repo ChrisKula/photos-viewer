@@ -1,4 +1,4 @@
-package com.christiankula.albumviewer.photolist;
+package com.christiankula.albumviewer.photolist.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.christiankula.albumviewer.R;
 import com.christiankula.albumviewer.models.Photo;
+import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -19,9 +20,6 @@ import butterknife.ButterKnife;
 
 
 public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHolder> {
-    public final static int STYLE_GRID = 1;
-
-    public final static int STYLE_LIST = 2;
 
     private List<Photo> data;
 
@@ -37,11 +35,11 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         int layoutResId;
 
         switch (this.style) {
-            case STYLE_LIST:
+            case PhotoListMvp.Model.STYLE_LIST:
                 layoutResId = R.layout.list_item_photo;
                 break;
 
-            case STYLE_GRID:
+            case PhotoListMvp.Model.STYLE_GRID:
             default:
                 layoutResId = R.layout.grid_item_photo;
                 break;

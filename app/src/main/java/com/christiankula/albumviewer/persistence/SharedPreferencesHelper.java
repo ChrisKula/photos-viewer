@@ -2,7 +2,7 @@ package com.christiankula.albumviewer.persistence;
 
 import android.content.SharedPreferences;
 
-import com.christiankula.albumviewer.photolist.PhotoAdapter;
+import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 
 import javax.inject.Inject;
 
@@ -33,6 +33,6 @@ public class SharedPreferencesHelper {
      * Returns the saved list style from the default Shared Preferences
      */
     public int getPreferredListStyle() {
-        return sharedPreferences.getInt(PREFERRED_LIST_STYLE_KEY, PhotoAdapter.STYLE_GRID);
+        return sharedPreferences.getInt(PREFERRED_LIST_STYLE_KEY, PhotoListMvp.Model.STYLE_GRID);
     }
 }

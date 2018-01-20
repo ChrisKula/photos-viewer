@@ -6,6 +6,12 @@
     <string name="menu_item_refresh">Refresh</string>
     <string name="menu_item_list_style_grid">Grid</string>
     <string name="menu_item_list_style_list">List</string>
+    <string name="menu_item_list_style_album">Album</string>
+
     <string name="snackbar_error_offline_mode">Unable to retrieve photos at the moment. Operating in offline mode</string>
+
     <string name="no_photos">No photos</string>
+    
+    <string name="album_number_s">Album n°%1$d</string>
+    <string name="album_photos_count_n">%1$d photos</string>
 </resources>

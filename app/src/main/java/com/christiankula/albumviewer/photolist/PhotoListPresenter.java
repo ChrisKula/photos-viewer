@@ -7,6 +7,7 @@ import com.christiankula.albumviewer.R;
 import com.christiankula.albumviewer.injection.modules.PhotoListModule;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
+import com.christiankula.albumviewer.utils.AlbumUtils;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -95,12 +96,16 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
     public void onMenuItemListStyleClick(int itemId) {
         switch (itemId) {
             case R.id.menu_item_list_style_list:
-                model.savePreferredListStyle(PhotoAdapter.STYLE_LIST);
+                model.savePreferredListStyle(PhotoListMvp.Model.STYLE_LIST);
+                break;
+
+            case R.id.menu_item_list_style_album:
+                model.savePreferredListStyle(PhotoListMvp.Model.STYLE_ALBUM);
                 break;
 
             case R.id.menu_item_list_style_grid:
             default:
-                model.savePreferredListStyle(PhotoAdapter.STYLE_GRID);
+                model.savePreferredListStyle(PhotoListMvp.Model.STYLE_GRID);
                 break;
         }
     }
@@ -138,7 +143,11 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
 
     private void displayPhotos(List<Photo> photos) {
         if (photos != null && !photos.isEmpty()) {
-            this.view.displayPhotos(photos);
+            if (model.getPreferredListStyle() == PhotoListMvp.Model.STYLE_ALBUM) {
+                this.view.displayAlbums(AlbumUtils.toAlbumList(photos));
+            } else {
+                this.view.displayPhotos(photos);
+            }
         } else {
             view.showNoPhotosToDisplayMessage();
         }

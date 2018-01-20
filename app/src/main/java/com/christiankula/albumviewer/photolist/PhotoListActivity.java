@@ -15,7 +15,10 @@ import android.widget.TextView;
 
 import com.christiankula.albumviewer.AlbumViewerApplication;
 import com.christiankula.albumviewer.R;
+import com.christiankula.albumviewer.models.Album;
 import com.christiankula.albumviewer.models.Photo;
+import com.christiankula.albumviewer.photolist.adapters.AlbumAdapter;
+import com.christiankula.albumviewer.photolist.adapters.PhotoAdapter;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 import com.christiankula.albumviewer.utils.ViewUtils;
 
@@ -50,7 +53,7 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
     private PhotoListMvp.Presenter presenter;
 
-    private PhotoAdapter photoAdapter;
+    private RecyclerView.Adapter photoListAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,11 +87,15 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         switch (presenter.getPreferredListStyle()) {
-            case PhotoAdapter.STYLE_LIST:
+            case PhotoListMvp.Model.STYLE_LIST:
                 menu.findItem(R.id.menu_item_list_style_list).setChecked(true);
                 return true;
 
-            case PhotoAdapter.STYLE_GRID:
+            case PhotoListMvp.Model.STYLE_ALBUM:
+                menu.findItem(R.id.menu_item_list_style_album).setChecked(true);
+                return true;
+
+            case PhotoListMvp.Model.STYLE_GRID:
             default:
                 menu.findItem(R.id.menu_item_list_style_grid).setChecked(true);
                 return true;
@@ -104,6 +111,7 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
             case R.id.menu_item_list_style_grid:
             case R.id.menu_item_list_style_list:
+            case R.id.menu_item_list_style_album:
                 presenter.onMenuItemListStyleClick(item.getItemId());
                 invalidateOptionsMenu();
                 setupPhotoListRecyclerView();
@@ -121,16 +129,31 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
     @Override
     public void displayPhotos(List<Photo> photos) {
-        photoAdapter.setData(photos);
+        if (photoListAdapter instanceof PhotoAdapter) {
+            ((PhotoAdapter) photoListAdapter).setData(photos);
 
-        ViewUtils.setViewVisibility(rvPhotoList, true);
+            ViewUtils.setViewVisibility(rvPhotoList, true);
 
-        ViewUtils.setViewVisibility(tvNoPhotos, false);
+            ViewUtils.setViewVisibility(tvNoPhotos, false);
+        }
+    }
+
+    @Override
+    public void displayAlbums(List<Album> albums) {
+        if (photoListAdapter instanceof AlbumAdapter) {
+            ((AlbumAdapter) photoListAdapter).setData(albums);
+
+            ViewUtils.setViewVisibility(rvPhotoList, true);
+
+            ViewUtils.setViewVisibility(tvNoPhotos, false);
+        }
     }
 
     @Override
     public void setRefreshing(boolean refreshing) {
         srlRoot.setRefreshing(refreshing);
+
+        ViewUtils.setViewVisibility(tvNoPhotos, !refreshing);
     }
 
     @Override
@@ -150,14 +173,19 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
         RecyclerView.LayoutManager layoutManager;
 
-        photoAdapter = new PhotoAdapter(preferredStyle);
+        if (preferredStyle == PhotoListMvp.Model.STYLE_ALBUM) {
+            photoListAdapter = new AlbumAdapter();
+        } else {
+            photoListAdapter = new PhotoAdapter(preferredStyle);
+        }
 
         switch (preferredStyle) {
-            case PhotoAdapter.STYLE_LIST:
+            case PhotoListMvp.Model.STYLE_LIST:
                 layoutManager = new LinearLayoutManager(this);
                 break;
 
-            case PhotoAdapter.STYLE_GRID:
+            case PhotoListMvp.Model.STYLE_ALBUM:
+            case PhotoListMvp.Model.STYLE_GRID:
             default:
                 int spanCount = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ? SPAN_COUNT_PORTRAIT : SPAN_COUNT_LANDSCAPE;
 
@@ -166,7 +194,7 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
         }
 
         rvPhotoList.setLayoutManager(layoutManager);
-        rvPhotoList.setAdapter(photoAdapter);
+        rvPhotoList.setAdapter(photoListAdapter);
 
         presenter.onPhotoListReady();
     }

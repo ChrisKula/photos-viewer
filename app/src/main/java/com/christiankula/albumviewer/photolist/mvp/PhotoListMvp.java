@@ -1,6 +1,7 @@
 package com.christiankula.albumviewer.photolist.mvp;
 
 
+import com.christiankula.albumviewer.models.Album;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.mvp.BasePresenter;
 import com.christiankula.albumviewer.mvp.BaseView;
@@ -16,6 +17,12 @@ import retrofit2.Call;
 public interface PhotoListMvp {
 
     interface Model {
+
+        int STYLE_GRID = 1;
+
+        int STYLE_LIST = 2;
+
+        int STYLE_ALBUM = 3;
 
         /**
          * Requests photos from the corresponding API endpoint
@@ -71,6 +78,11 @@ public interface PhotoListMvp {
          * Displays the given List of {@link Photo}
          */
         void displayPhotos(List<Photo> photos);
+
+        /**
+         * Displays the given List of {@link Album}
+         */
+        void displayAlbums(List<Album> albums);
 
         /**
          * Sets whether the spinning progress bar should be displayed
