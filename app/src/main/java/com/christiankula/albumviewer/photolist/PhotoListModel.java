@@ -22,6 +22,8 @@ public class PhotoListModel implements PhotoListMvp.Model {
 
     private List<Photo> loadedPhotos;
 
+    private long lastRefreshTimestamp = -1;
+
     @Inject
     public PhotoListModel(JsonPlaceholderService service, SharedPreferencesHelper sharedPreferencesHelper, PhotoDao photoDao) {
         this.jsonPlaceholderService = service;
@@ -67,5 +69,15 @@ public class PhotoListModel implements PhotoListMvp.Model {
     @Override
     public void setLoadedPhotos(List<Photo> photos) {
         this.loadedPhotos = photos;
+    }
+
+    @Override
+    public void setLastRefreshTimestamp(long timestamp) {
+        this.lastRefreshTimestamp = timestamp;
+    }
+
+    @Override
+    public long getLastRefreshTimestamp() {
+        return this.lastRefreshTimestamp;
     }
 }
