@@ -4,10 +4,12 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.christiankula.albumviewer.R;
+import com.christiankula.albumviewer.injection.modules.PhotoListModule;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -22,6 +24,8 @@ import retrofit2.Response;
 public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List<Photo>> {
 
     private static final String TAG = PhotoListPresenter.class.getSimpleName();
+
+    private static final long INTERVAL_BETWEEN_TWO_UPDATES = TimeUnit.MINUTES.toMillis(10);
 
     private PhotoListMvp.View view;
 
@@ -67,8 +71,9 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
 
     @Override
     public void onCreate() {
-        // TODO Avoid requesting on every 'onCreate'
-        refreshPhotos();
+        if (System.currentTimeMillis() > model.getLastRefreshTimestamp() + INTERVAL_BETWEEN_TWO_UPDATES) {
+            refreshPhotos();
+        }
     }
 
     @Override
@@ -105,6 +110,7 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
         List<Photo> photos = response.body();
 
         if (response.isSuccessful() && photos != null) {
+            model.setLastRefreshTimestamp(System.currentTimeMillis());
             model.savePhotos(photos);
         } else {
             view.showUnableToRetrievePhotosOperatingInOfflineModeMessage();

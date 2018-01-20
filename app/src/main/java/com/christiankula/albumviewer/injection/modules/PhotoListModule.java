@@ -7,6 +7,8 @@ import com.christiankula.albumviewer.photolist.PhotoListModel;
 import com.christiankula.albumviewer.photolist.PhotoListPresenter;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 
+import javax.inject.Singleton;
+
 import dagger.Module;
 import dagger.Provides;
 
@@ -22,6 +24,7 @@ public class PhotoListModule {
      * @param service REST client
      */
     @Provides
+    @Singleton
     PhotoListMvp.Model provideModel(JsonPlaceholderService service, SharedPreferencesHelper sharedPreferencesHelper, PhotoDao photoDao) {
         return new PhotoListModel(service, sharedPreferencesHelper, photoDao);
     }
@@ -33,6 +36,7 @@ public class PhotoListModule {
      * @param model corresponding {@link PhotoListMvp.Model}
      */
     @Provides
+    @Singleton
     PhotoListMvp.Presenter providePresenter(PhotoListMvp.Model model) {
         return new PhotoListPresenter(model);
     }

@@ -59,6 +59,10 @@ public interface PhotoListMvp {
          * Returns the model's loaded photos
          */
         List<Photo> getLoadedPhotos();
+
+        void setLastRefreshTimestamp(long timestamp);
+
+        long getLastRefreshTimestamp();
     }
 
     interface View extends BaseView<Presenter> {
