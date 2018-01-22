@@ -4,7 +4,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.christiankula.albumviewer.R;
-import com.christiankula.albumviewer.injection.modules.PhotoListModule;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 import com.christiankula.albumviewer.utils.AlbumUtils;
