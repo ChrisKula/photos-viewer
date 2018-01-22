@@ -11,7 +11,8 @@
     <string name="snackbar_error_offline_mode">Unable to retrieve photos at the moment. Operating in offline mode</string>
 
     <string name="no_photos">No photos</string>
-    
+
+    <string name="photo_number_s">Photo n°%1$d</string>
     <string name="album_number_s">Album n°%1$d</string>
     <string name="album_photos_count_n">%1$d photos</string>
 </resources>
