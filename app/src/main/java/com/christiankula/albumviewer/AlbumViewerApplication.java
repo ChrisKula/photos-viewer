@@ -8,6 +8,7 @@ import com.christiankula.albumviewer.injection.modules.ApplicationModule;
 import com.christiankula.albumviewer.injection.modules.NetworkModule;
 import com.christiankula.albumviewer.injection.modules.PersistenceModule;
 import com.christiankula.albumviewer.injection.modules.PhotoListModule;
+import com.christiankula.albumviewer.injection.modules.PhotoViewerModule;
 
 
 public class AlbumViewerApplication extends Application {
@@ -23,6 +24,7 @@ public class AlbumViewerApplication extends Application {
                     .applicationModule(new ApplicationModule(this))
                     .networkModule(new NetworkModule())
                     .photoListModule(new PhotoListModule())
+                    .photoViewerModule(new PhotoViewerModule())
                     .persistenceModule(new PersistenceModule())
                     .build();
 
