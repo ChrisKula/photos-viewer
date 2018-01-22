@@ -9,12 +9,14 @@ import com.christiankula.albumviewer.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PhotoViewerActivity extends AppCompatActivity {
+public class PhotoViewerActivity extends AppCompatActivity implements PhotoViewerMvp.View {
 
     private static final String TAG = PhotoViewerActivity.class.getSimpleName();
 
     @BindView(R.id.vp_photos)
     ViewPager vpPhotos;
+
+    private PhotoViewerMvp.Presenter presenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,5 +25,10 @@ public class PhotoViewerActivity extends AppCompatActivity {
 
 
         ButterKnife.bind(this);
+    }
+
+    @Override
+    public void setPresenter(PhotoViewerMvp.Presenter presenter) {
+        this.presenter = presenter;
     }
 }
