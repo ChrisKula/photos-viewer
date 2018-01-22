@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.christiankula.albumviewer.R;
+import com.christiankula.albumviewer.models.Album;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
 import com.christiankula.albumviewer.utils.AlbumUtils;
@@ -107,6 +108,11 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
                 model.savePreferredListStyle(PhotoListMvp.Model.STYLE_GRID);
                 break;
         }
+    }
+
+    @Override
+    public void onItemClick(Album album) {
+        view.startPhotoViewerActivity(album.getPhotos());
     }
 
     @Override

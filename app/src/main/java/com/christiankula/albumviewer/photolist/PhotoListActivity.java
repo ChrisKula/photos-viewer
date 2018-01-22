@@ -1,5 +1,6 @@
 package com.christiankula.albumviewer.photolist;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -20,7 +21,10 @@ import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.photolist.adapters.AlbumAdapter;
 import com.christiankula.albumviewer.photolist.adapters.PhotoAdapter;
 import com.christiankula.albumviewer.photolist.mvp.PhotoListMvp;
+import com.christiankula.albumviewer.photoviewer.PhotoViewerActivity;
 import com.christiankula.albumviewer.utils.ViewUtils;
+
+import org.parceler.Parcels;
 
 import java.util.List;
 
@@ -29,7 +33,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp.View, SwipeRefreshLayout.OnRefreshListener {
+public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp.View, SwipeRefreshLayout.OnRefreshListener, AlbumAdapter.OnItemClickListener {
 
     /**
      * Span count for GridLayoutManager when in portrait mode
@@ -168,6 +172,19 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
         ViewUtils.setViewVisibility(tvNoPhotos, true);
     }
 
+    @Override
+    public void onItemClick(Album album) {
+        presenter.onItemClick(album);
+    }
+
+    @Override
+    public void startPhotoViewerActivity(List<Photo> photos) {
+        Intent intent = new Intent(this, PhotoViewerActivity.class);
+        intent.putExtra(PhotoViewerActivity.PHOTOS_EXTRA_KEY, Parcels.wrap(photos));
+
+        startActivity(intent);
+    }
+
     private void setupPhotoListRecyclerView() {
         int preferredStyle = presenter.getPreferredListStyle();
 
@@ -175,6 +192,7 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
 
         if (preferredStyle == PhotoListMvp.Model.STYLE_ALBUM) {
             photoListAdapter = new AlbumAdapter();
+            ((AlbumAdapter) photoListAdapter).setOnItemClickListener(this);
         } else {
             photoListAdapter = new PhotoAdapter(preferredStyle);
         }

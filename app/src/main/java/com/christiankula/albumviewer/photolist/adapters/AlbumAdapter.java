@@ -22,6 +22,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
     private List<Album> data;
 
+    private OnItemClickListener onItemClickListener;
+
     public AlbumAdapter() {
         data = new ArrayList<>();
     }
@@ -35,7 +37,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
 
     @Override
     public void onBindViewHolder(AlbumViewHolder holder, int position) {
-        Album album = data.get(position);
+        final Album album = data.get(position);
 
         holder.tvAlbumId.setText(holder.tvAlbumId.getContext().getString(R.string.album_number_s, album.getId()));
         holder.tvAlbumPhotosCount.setText(holder.tvAlbumPhotosCount.getContext().getString(R.string.album_photos_count_n, album.getPhotos().size()));
@@ -45,6 +47,16 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
                     .load(album.getPhotos().get(0).getThumbnailUrl())
                     .error(R.drawable.ic_broken_image_black_24dp)
                     .into(holder.ivAlbumCover);
+
+
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick(album);
+                    }
+                }
+            });
         }
     }
 
@@ -56,6 +68,14 @@ public class AlbumAdapter extends RecyclerView.Adapter<AlbumAdapter.AlbumViewHol
     public void setData(List<Album> data) {
         this.data = data;
         notifyDataSetChanged();
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Album album);
     }
 
     class AlbumViewHolder extends RecyclerView.ViewHolder {

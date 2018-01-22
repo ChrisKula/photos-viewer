@@ -98,6 +98,13 @@ public interface PhotoListMvp {
          * Displays a message indicating there's no photo to display
          */
         void showNoPhotosToDisplayMessage();
+
+        /**
+         * Start a PhotoViewerActivity with the given List of {@link Photo}s
+         *
+         * @param photos List of Photos to pass to the PhotoViewerActivity
+         */
+        void startPhotoViewerActivity(List<Photo> photos);
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -128,5 +135,12 @@ public interface PhotoListMvp {
          * @param itemId the id of the clicked item
          */
         void onMenuItemListStyleClick(int itemId);
+
+        /**
+         * Called when an item is clicked when in Album view
+         *
+         * @param album the clicked album
+         */
+        void onItemClick(Album album);
     }
 }
