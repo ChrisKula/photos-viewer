@@ -1,0 +1,16 @@
+<resources>
+
+    <string name="menu_item_refresh">Rafraîchir</string>
+    <string name="menu_item_list_style_grid">Grille</string>
+    <string name="menu_item_list_style_list">Liste</string>
+    <string name="menu_item_list_style_album">Album</string>
+
+    <string name="snackbar_error_offline_mode">Impossible de récupérer les photos pour le moment. Fonctionnement hors ligne</string>
+
+    <string name="no_photos">Pas de photos</string>
+
+    <string name="photo_number_s">Photo n°%1$d</string>
+    <string name="album_number_s">Album n°%1$d</string>
+    <string name="album_photos_count_n">%1$d photos</string>
+    <string name="app_name">Explorateur de photos</string>
+</resources>

@@ -1,7 +1,7 @@
 <resources>
-    <string name="app_name">Album Viewer</string>
+    <string name="app_name">Photo viewer</string>
 
-    <string name="json_placeholder_base_url">https://jsonplaceholder.typicode.com/</string>
+    <string name="json_placeholder_base_url" translatable="false">https://jsonplaceholder.typicode.com/</string>
 
     <string name="menu_item_refresh">Refresh</string>
     <string name="menu_item_list_style_grid">Grid</string>
