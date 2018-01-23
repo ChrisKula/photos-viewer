@@ -25,6 +25,8 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     private final int style;
 
+    private OnItemClickListener onItemClickListener;
+
     public PhotoAdapter(int style) {
         data = new ArrayList<>();
         this.style = style;
@@ -52,7 +54,7 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
 
     @Override
     public void onBindViewHolder(PhotoViewHolder holder, int position) {
-        Photo photo = data.get(position);
+        final Photo photo = data.get(position);
 
         holder.tvPhotoTitle.setText(photo.getTitle());
 
@@ -61,6 +63,15 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
                 .load(photo.getThumbnailUrl())
                 .error(R.drawable.ic_broken_image_black_24dp)
                 .into(holder.ivPhotoImage);
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(photo);
+                }
+            }
+        });
     }
 
     @Override
@@ -73,6 +84,13 @@ public class PhotoAdapter extends RecyclerView.Adapter<PhotoAdapter.PhotoViewHol
         notifyDataSetChanged();
     }
 
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Photo photo);
+    }
 
     class PhotoViewHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.iv_photo_image)

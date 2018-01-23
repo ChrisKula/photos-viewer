@@ -25,6 +25,8 @@ public class PhotoViewerActivity extends AppCompatActivity implements PhotoViewe
 
     public static final String PHOTOS_EXTRA_KEY = "PHOTOS_EXTRA";
 
+    public static final String SELECTED_PHOTO_ID_EXTRA_KEY = "SELECTED_PHOTO_ID_EXTRA";
+
     @BindView(R.id.vp_photos)
     ViewPager vpPhotos;
 
@@ -64,13 +66,25 @@ public class PhotoViewerActivity extends AppCompatActivity implements PhotoViewe
     }
 
     @Override
+    public int getSelectedPhotoIdFromIntent() {
+        return getIntent().getIntExtra(SELECTED_PHOTO_ID_EXTRA_KEY, -1);
+    }
+
+    @Override
     public void setupPhotosViewPager(List<Photo> photos) {
+        setupPhotosViewPager(photos, 0);
+    }
+
+    @Override
+    public void setupPhotosViewPager(List<Photo> photos, int selectedPhotoIndex) {
         photoPagerAdapter = new PhotoPagerAdapter(getSupportFragmentManager(), photos);
 
         vpPhotos.addOnPageChangeListener(this);
         vpPhotos.setAdapter(photoPagerAdapter);
 
-        this.onPageSelected(0);
+        vpPhotos.setCurrentItem(selectedPhotoIndex);
+
+        this.onPageSelected(selectedPhotoIndex);
     }
 
     @Override

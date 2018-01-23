@@ -33,7 +33,7 @@ import javax.inject.Inject;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp.View, SwipeRefreshLayout.OnRefreshListener, AlbumAdapter.OnItemClickListener {
+public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp.View, SwipeRefreshLayout.OnRefreshListener, AlbumAdapter.OnItemClickListener, PhotoAdapter.OnItemClickListener {
 
     /**
      * Span count for GridLayoutManager when in portrait mode
@@ -178,9 +178,22 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
     }
 
     @Override
+    public void onItemClick(Photo photo) {
+        presenter.onItemClick(photo);
+    }
+
+    @Override
     public void startPhotoViewerActivity(List<Photo> photos) {
         Intent intent = new Intent(this, PhotoViewerActivity.class);
         intent.putExtra(PhotoViewerActivity.PHOTOS_EXTRA_KEY, Parcels.wrap(photos));
+
+        startActivity(intent);
+    }
+
+    @Override
+    public void startPhotoViewerActivity(int selectedPhotoId) {
+        Intent intent = new Intent(this, PhotoViewerActivity.class);
+        intent.putExtra(PhotoViewerActivity.SELECTED_PHOTO_ID_EXTRA_KEY, selectedPhotoId);
 
         startActivity(intent);
     }
@@ -195,6 +208,7 @@ public class PhotoListActivity extends AppCompatActivity implements PhotoListMvp
             ((AlbumAdapter) photoListAdapter).setOnItemClickListener(this);
         } else {
             photoListAdapter = new PhotoAdapter(preferredStyle);
+            ((PhotoAdapter) photoListAdapter).setOnItemClickListener(this);
         }
 
         switch (preferredStyle) {

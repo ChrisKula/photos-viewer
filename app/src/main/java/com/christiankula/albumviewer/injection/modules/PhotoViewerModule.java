@@ -1,6 +1,7 @@
 package com.christiankula.albumviewer.injection.modules;
 
 
+import com.christiankula.albumviewer.persistence.PhotoDao;
 import com.christiankula.albumviewer.photoviewer.PhotoViewerModel;
 import com.christiankula.albumviewer.photoviewer.PhotoViewerMvp;
 import com.christiankula.albumviewer.photoviewer.PhotoViewerPresenter;
@@ -15,8 +16,8 @@ public class PhotoViewerModule {
 
     @Provides
     @Singleton
-    PhotoViewerMvp.Model provideModel() {
-        return new PhotoViewerModel();
+    PhotoViewerMvp.Model provideModel(PhotoDao photoDao) {
+        return new PhotoViewerModel(photoDao);
     }
 
     @Provides

@@ -116,6 +116,11 @@ public class PhotoListPresenter implements PhotoListMvp.Presenter, Callback<List
     }
 
     @Override
+    public void onItemClick(Photo photo) {
+        view.startPhotoViewerActivity(photo.getId());
+    }
+
+    @Override
     public void onResponse(@NonNull Call<List<Photo>> call, @NonNull Response<List<Photo>> response) {
         List<Photo> photos = response.body();
 

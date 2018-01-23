@@ -100,11 +100,18 @@ public interface PhotoListMvp {
         void showNoPhotosToDisplayMessage();
 
         /**
-         * Start a PhotoViewerActivity with the given List of {@link Photo}s
+         * Starts a PhotoViewerActivity with the given List of {@link Photo}s
          *
          * @param photos List of Photos to pass to the PhotoViewerActivity
          */
         void startPhotoViewerActivity(List<Photo> photos);
+
+        /**
+         * Starts a PhotoViewerActivity with the given Photo pre-selected
+         *
+         * @param selectedPhotoId the id of the Photo to pre-select
+         */
+        void startPhotoViewerActivity(int selectedPhotoId);
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -142,5 +149,12 @@ public interface PhotoListMvp {
          * @param album the clicked album
          */
         void onItemClick(Album album);
+
+        /**
+         * Called when an item is clicked when either in Grid or List view
+         *
+         * @param photo the clicked photo
+         */
+        void onItemClick(Photo photo);
     }
 }
