@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     tools:context="com.christiankula.albumviewer.photolist.PhotoListActivity">
 
+    <TextView
+        android:id="@+id/tv_no_photos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:text="@string/no_photos"
+        android:visibility="gone" />
+
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/srl_root"
         android:layout_width="match_parent"
@@ -18,5 +27,6 @@
             android:padding="2dp"
             android:scrollbars="vertical"
             tools:listitem="@layout/list_item_photo" />
+
     </android.support.v4.widget.SwipeRefreshLayout>
 </android.support.design.widget.CoordinatorLayout>

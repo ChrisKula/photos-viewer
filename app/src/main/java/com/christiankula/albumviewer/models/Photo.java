@@ -8,6 +8,9 @@ import android.arch.persistence.room.PrimaryKey;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import org.parceler.Parcel;
+
+@Parcel
 @Entity(tableName = "photos")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Photo {
@@ -85,8 +88,13 @@ public class Photo {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
 
         Photo photo = (Photo) o;
 

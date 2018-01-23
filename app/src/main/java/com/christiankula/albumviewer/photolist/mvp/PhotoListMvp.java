@@ -1,6 +1,7 @@
 package com.christiankula.albumviewer.photolist.mvp;
 
 
+import com.christiankula.albumviewer.models.Album;
 import com.christiankula.albumviewer.models.Photo;
 import com.christiankula.albumviewer.mvp.BasePresenter;
 import com.christiankula.albumviewer.mvp.BaseView;
@@ -16,6 +17,12 @@ import retrofit2.Call;
 public interface PhotoListMvp {
 
     interface Model {
+
+        int STYLE_GRID = 1;
+
+        int STYLE_LIST = 2;
+
+        int STYLE_ALBUM = 3;
 
         /**
          * Requests photos from the corresponding API endpoint
@@ -73,6 +80,11 @@ public interface PhotoListMvp {
         void displayPhotos(List<Photo> photos);
 
         /**
+         * Displays the given List of {@link Album}
+         */
+        void displayAlbums(List<Album> albums);
+
+        /**
          * Sets whether the spinning progress bar should be displayed
          */
         void setRefreshing(boolean refreshing);
@@ -86,6 +98,20 @@ public interface PhotoListMvp {
          * Displays a message indicating there's no photo to display
          */
         void showNoPhotosToDisplayMessage();
+
+        /**
+         * Starts a PhotoViewerActivity with the given List of {@link Photo}s
+         *
+         * @param photos List of Photos to pass to the PhotoViewerActivity
+         */
+        void startPhotoViewerActivity(List<Photo> photos);
+
+        /**
+         * Starts a PhotoViewerActivity with the given Photo pre-selected
+         *
+         * @param selectedPhotoId the id of the Photo to pre-select
+         */
+        void startPhotoViewerActivity(int selectedPhotoId);
     }
 
     interface Presenter extends BasePresenter<View> {
@@ -116,5 +142,19 @@ public interface PhotoListMvp {
          * @param itemId the id of the clicked item
          */
         void onMenuItemListStyleClick(int itemId);
+
+        /**
+         * Called when an item is clicked when in Album view
+         *
+         * @param album the clicked album
+         */
+        void onItemClick(Album album);
+
+        /**
+         * Called when an item is clicked when either in Grid or List view
+         *
+         * @param photo the clicked photo
+         */
+        void onItemClick(Photo photo);
     }
 }

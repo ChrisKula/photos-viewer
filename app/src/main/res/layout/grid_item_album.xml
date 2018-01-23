@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="2dp">
+
+    <ImageView
+        android:id="@+id/iv_album_cover"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:contentDescription="Album cover"
+        android:scaleType="centerCrop"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@tools:sample/avatars" />
+
+
+    <TextView
+        android:id="@+id/tv_album_photos_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#88000000"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:gravity="end"
+        app:layout_constraintTop_toTopOf="@id/iv_album_cover"
+        app:layout_constraintLeft_toLeftOf="@id/iv_album_cover"
+        tools:text="N°1" />
+
+    <TextView
+        android:id="@+id/tv_album_photos_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#88000000"
+        android:padding="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:gravity="end"
+        app:layout_constraintBottom_toBottomOf="@id/iv_album_cover"
+        app:layout_constraintLeft_toLeftOf="@id/iv_album_cover"
+        app:layout_constraintRight_toRightOf="@id/iv_album_cover"
+        tools:text="N photos" />
+
+</android.support.constraint.ConstraintLayout>
